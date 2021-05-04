@@ -7,12 +7,12 @@ class Result extends StatelessWidget {
 
   String get resultMessage {
     String message;
-    if (totalScore >= 20) {
+    if (totalScore == 3) {
       message = 'You are awesome';
-    } else if (totalScore >= 15) {
-      message = 'You are good';
+    } else if (totalScore == 2) {
+      message = 'New fan?';
     } else {
-      message = 'You are ... strange';
+      message = 'You still think you are a blink?';
     }
     return message;
   }
@@ -27,10 +27,9 @@ class Result extends StatelessWidget {
             style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
           ),
-          FlatButton(
+          OutlinedButton(
             onPressed: resetHandler,
             child: Text('Reset Quiz!'),
-            textColor: Colors.blue,
           )
         ],
       ),

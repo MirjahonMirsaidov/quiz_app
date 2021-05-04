@@ -28,30 +28,30 @@ class MyAppState extends State {
 
   var questions = [
     {
-      'question': "What's your favourite color?",
+      'question': "Most viewed Blackpink song on YouTube?",
       'answers': [
-        {'text': 'Black', 'score': 9},
-        {'text': 'White', 'score': 8},
-        {'text': 'Red', 'score': 5},
-        {'text': 'Pink', 'score': 5}
+        {'text': 'How you like that', 'score': 0},
+        {'text': 'DDU-DU DDU-DU', 'score': 1},
+        {'text': 'Kill this love', 'score': 0},
+        {'text': 'Boombayah', 'score': 0}
       ]
     },
     {
-      'question': "What's your favourite animal?",
+      'question': "Realese date of first MV?",
       'answers': [
-        {'text': 'Dog', 'score': 9},
-        {'text': 'Cat', 'score': 8},
-        {'text': 'Elephant', 'score': 5},
-        {'text': 'Cow', 'score': 5}
+        {'text': 'January 6, 2016', 'score': 0},
+        {'text': 'August 8, 2016', 'score': 1},
+        {'text': 'February 9, 2017', 'score': 0},
+        {'text': 'May 22, 2017', 'score': 0}
       ]
     },
     {
-      'question': "What's your favourite musician?",
+      'question': "What's the name of first single album of Blackpink?",
       'answers': [
-        {'text': 'BlackPink', 'score': 9},
-        {'text': 'Justin Bieber', 'score': 8},
-        {'text': 'Taylor Swift', 'score': 5},
-        {'text': 'Drake', 'score': 5}
+        {'text': 'BlackPink in your area', 'score': 0},
+        {'text': 'Square One', 'score': 1},
+        {'text': 'The Show', 'score': 0},
+        {'text': 'Lovesick girls', 'score': 0}
       ]
     }
   ];
@@ -68,7 +68,7 @@ class MyAppState extends State {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('My First App'),
+          title: Text('Blackpink Test App'),
         ),
         body: questionIndex < questions.length
             ? Quiz(
