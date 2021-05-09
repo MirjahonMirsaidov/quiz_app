@@ -1,83 +1,108 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/result.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
-import './quiz.dart';
-import './result.dart';
+import 'quiz_brain.dart';
+
+QuizBrain quizBrain = QuizBrain();
 
 void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   @override
-  State<StatefulWidget> createState() {
-    return MyAppState();
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        backgroundColor: Colors.grey.shade900,
+        body: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.all(10),
+            child: QuizPage(),
+          ),
+        ),
+      ),
+    );
   }
 }
 
-class MyAppState extends State {
-  var questionIndex = 0;
-  var totalScore = 0;
+class QuizPage extends StatefulWidget {
+  @override
+  _QuizPageState createState() => _QuizPageState();
+}
 
-  resetEverything() {
+class _QuizPageState extends State<QuizPage> {
+  List<Icon> scoreKeeper = [];
+
+  void checkAnswer(bool userAnswer) {
     setState(() {
-      questionIndex = 0;
-      totalScore = 0;
-    });
-  }
-
-  var questions = [
-    {
-      'question': "Most viewed Blackpink song on YouTube?",
-      'answers': [
-        {'text': 'How you like that', 'score': 0},
-        {'text': 'DDU-DU DDU-DU', 'score': 1},
-        {'text': 'Kill this love', 'score': 0},
-        {'text': 'Boombayah', 'score': 0}
-      ]
-    },
-    {
-      'question': "Realese date of first MV?",
-      'answers': [
-        {'text': 'January 6, 2016', 'score': 0},
-        {'text': 'August 8, 2016', 'score': 1},
-        {'text': 'February 9, 2017', 'score': 0},
-        {'text': 'May 22, 2017', 'score': 0}
-      ]
-    },
-    {
-      'question': "What's the name of first single album of Blackpink?",
-      'answers': [
-        {'text': 'BlackPink in your area', 'score': 0},
-        {'text': 'Square One', 'score': 1},
-        {'text': 'The Show', 'score': 0},
-        {'text': 'Lovesick girls', 'score': 0}
-      ]
-    }
-  ];
-
-  answerQuestion(int answerScore) {
-    totalScore += answerScore;
-    setState(() {
-      questionIndex++;
+      if (quizBrain.end0fQuestion() == false) {
+        quizBrain.getQuestionAnswer() == userAnswer
+            ? scoreKeeper.add(Icon(
+                Icons.check,
+                color: Colors.green,
+              ))
+            : scoreKeeper.add(Icon(
+                Icons.close,
+                color: Colors.red,
+              ));
+        quizBrain.nextQuestion();
+      } else {
+        Alert(
+                context: context,
+                title: "ALERT",
+                desc: "You have finished the quiz")
+            .show();
+        scoreKeeper.clear();
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Blackpink Test App'),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Expanded(
+          flex: 5,
+          child: Center(
+              child: Text(
+            quizBrain.getQuestionText(),
+            style: TextStyle(color: Colors.white, fontSize: 25),
+          )),
         ),
-        body: questionIndex < questions.length
-            ? Quiz(
-                answerQuestion: answerQuestion,
-                questionIndex: questionIndex,
-                questions: questions,
-              )
-            : Result(totalScore, resetEverything),
-      ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: ElevatedButton(
+              child: Text(
+                'True',
+                style: TextStyle(fontSize: 20, color: Colors.white),
+              ),
+              onPressed: () => checkAnswer(true),
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.green)),
+            ),
+          ),
+        ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: ElevatedButton(
+              child: Text(
+                'False',
+                style: TextStyle(fontSize: 20, color: Colors.white),
+              ),
+              onPressed: () => checkAnswer(false),
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.red)),
+            ),
+          ),
+        ),
+        Row(
+          children: scoreKeeper,
+        )
+      ],
     );
   }
 }
